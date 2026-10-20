@@ -35,5 +35,7 @@ void wlr_foreign_toplevel_init(struct wlr_foreign_toplevel *wlr_toplevel,
 void wlr_foreign_toplevel_set_parent(struct wlr_foreign_toplevel *wlr_toplevel,
 	struct wlr_foreign_toplevel *parent);
 void wlr_foreign_toplevel_finish(struct wlr_foreign_toplevel *wlr_toplevel);
+void wlr_foreign_toplevel_update_minimized_state(
+	struct wlr_foreign_toplevel *wlr_toplevel);
 
 #endif /* LABWC_WLR_FOREIGN_TOPLEVEL_H */

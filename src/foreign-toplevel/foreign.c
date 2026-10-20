@@ -42,3 +42,13 @@ foreign_toplevel_destroy(struct foreign_toplevel *toplevel)
 	ext_foreign_toplevel_finish(&toplevel->ext_toplevel);
 	free(toplevel);
 }
+
+void
+foreign_toplevel_update_minimized(struct view *view)
+{
+	if (!view->foreign_toplevel) {
+		return;
+	}
+	wlr_foreign_toplevel_update_minimized_state(
+		&view->foreign_toplevel->wlr_toplevel);
+}

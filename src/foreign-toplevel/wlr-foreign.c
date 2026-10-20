@@ -145,6 +145,28 @@ handle_maximized(struct wl_listener *listener, void *data)
 		wlr_toplevel->view->maximized == VIEW_AXIS_BOTH);
 }
 
+/*
+ * Report the 'minimized' state to foreign-toplevel clients. In addition to
+ * a real minimize, views on other workspaces (unless omnipresent) are
+ * reported as minimized so that taskbars and docks are able to only show
+ * windows on the current workspace - wlroots' foreign-toplevel protocol
+ * has no dedicated state for that.
+ */
+void
+wlr_foreign_toplevel_update_minimized_state(
+		struct wlr_foreign_toplevel *wlr_toplevel)
+{
+	if (!wlr_toplevel->handle) {
+		return;
+	}
+
+	struct view *view = wlr_toplevel->view;
+	bool hidden = view->minimized ||
+		(!view->visible_on_all_workspaces &&
+		view->workspace != server.workspaces.current);
+	wlr_foreign_toplevel_handle_v1_set_minimized(wlr_toplevel->handle, hidden);
+}
+
 static void
 handle_minimized(struct wl_listener *listener, void *data)
 {
@@ -152,8 +174,7 @@ handle_minimized(struct wl_listener *listener, void *data)
 		wl_container_of(listener, wlr_toplevel, on_view.minimized);
 	assert(wlr_toplevel->handle);
 
-	wlr_foreign_toplevel_handle_v1_set_minimized(wlr_toplevel->handle,
-		wlr_toplevel->view->minimized);
+	wlr_foreign_toplevel_update_minimized_state(wlr_toplevel);
 }
 
 static void

@@ -18,6 +18,7 @@
 #include "common/mem.h"
 #include "common/scene-helpers.h"
 #include "config/rcxml.h"
+#include "foreign-toplevel/foreign.h"
 #include "input/keyboard.h"
 #include "labwc.h"
 #include "output.h"
@@ -494,6 +495,14 @@ workspaces_switch_to(struct workspace *target, bool update_focus)
 
 	/* Ensure that only currently visible fullscreen windows hide the top layer */
 	desktop_update_top_layer_visibility();
+
+	/*
+	 * Views on other workspaces are reported as minimized so that
+	 * taskbar/dock clients can filter by current workspace.
+	 */
+	wl_list_for_each(view, &server.views, link) {
+		foreign_toplevel_update_minimized(view);
+	}
 
 	wlr_ext_workspace_handle_v1_set_active(target->ext_workspace, true);
 
