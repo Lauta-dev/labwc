@@ -6,6 +6,18 @@ href="https://github.com/labwc/labwc-scope#readme">Scope</a>] [<a
 href="https://web.libera.chat/gamja/?channels=#labwc">IRC&nbsp;Channel</a>] [<a
 href="NEWS.md">Release&nbsp;Notes</a>]</h3>
 
+> [!NOTE]
+> **About this fork**
+>
+> This fork modifies the window-switcher/taskbar integration: windows that are
+> on workspaces other than the current one are reported as *minimized* through
+> the foreign-toplevel protocol, because the protocol provides no dedicated
+> state for workspace membership. This allows shell clients (for example a
+> Quickshell taskbar) to filter or dim out-of-workspace windows.
+>
+> The change was implemented with the assistance of AI (opencode running the
+> GLM model from Z.ai); the resulting code was reviewed and tested by hand.
+
 - [0. Direction](#0-direction)
 - [1. Project Description](#1-project-description)
   - [1.1 What Is This?](#11-what-is-this)
